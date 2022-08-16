@@ -4,8 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -46,7 +47,7 @@ public class DefaultCSVUtil implements CSVUtil {
 
         if (url == null) throw new FileNotFoundException(filePath + " in folder resources not found");
 
-        try (Stream<String> stream = Files.lines(Path.of(url.getPath()))) {
+        try (Stream<String> stream = Files.lines(Paths.get(url.getPath()))) {
 
             result = stream.filter(line -> !returnSubstring(line).isEmpty())
                     .collect(Collectors.toMap(
