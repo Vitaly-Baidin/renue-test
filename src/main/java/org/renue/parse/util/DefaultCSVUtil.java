@@ -55,24 +55,9 @@ public class DefaultCSVUtil implements CSVUtil {
             return new TreeMap<>();
         }
 
-        TreeMap<String, String> sortResult = new TreeMap<>((o1, o2) -> {
 
-            if (checkNumber(o1)) {
-                double number1 = Double.parseDouble(o1);
-                double number2 = Double.parseDouble(o2);
-                if (number1 > number2) {
-                    return 1;
-                } else if (number1 < number2) {
-                    return -1;
-                }
-                return 0;
-            }
-            return o1.compareTo(o2);
-        });
 
-        sortResult.putAll(result);
-
-        return sortResult;
+        return sortMap(result);
     }
 
     private String returnSubstring(String line) {
@@ -116,6 +101,27 @@ public class DefaultCSVUtil implements CSVUtil {
         Pattern pattern = Pattern.compile("^\\\"?" + searchWord, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(line);
         return matcher.find();
+    }
+
+    private TreeMap<String, String> sortMap(Map<String, String> map) {
+        TreeMap<String, String> sortResult = new TreeMap<>((o1, o2) -> {
+
+            if (checkNumber(o1)) {
+                double number1 = Double.parseDouble(o1);
+                double number2 = Double.parseDouble(o2);
+                if (number1 > number2) {
+                    return 1;
+                } else if (number1 < number2) {
+                    return -1;
+                }
+                return 0;
+            }
+            return o1.compareTo(o2);
+        });
+
+        sortResult.putAll(map);
+
+        return sortResult;
     }
 
     private boolean checkNumber(String line) {
