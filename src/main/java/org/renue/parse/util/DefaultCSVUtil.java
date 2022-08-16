@@ -1,16 +1,12 @@
 package org.renue.parse.util;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class DefaultCSVUtil implements CSVUtil {
 
@@ -41,29 +37,25 @@ public class DefaultCSVUtil implements CSVUtil {
     }
 
     private TreeMap<String, String> parseCSV() throws IOException {
-        URL url = getClass().getClassLoader().getResource(filePath);
+        Map<String, String> result;
 
-        Map<String, String> result = null;
+        try (InputStream resource = DefaultCSVUtil.class.getClassLoader().getResourceAsStream(filePath)) {
+            if (resource == null) throw new FileNotFoundException(filePath + " not found in resources folder");
 
-        if (url == null) throw new FileNotFoundException(filePath + " in folder resources not found");
+            BufferedReader br = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8));
 
-        try (Stream<String> stream = Files.lines(Paths.get(url.getPath()))) {
-
-            result = stream.filter(line -> !returnSubstring(line).isEmpty())
+            result = br.lines().filter(line -> !returnSubstring(line).isEmpty())
                     .collect(Collectors.toMap(
                             this::returnSubstring,
                             v -> "[" + v + "]"
                     ));
-
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
         }
 
-        if (result == null || result.isEmpty()) {
+        if (result.isEmpty()) {
             return new TreeMap<>();
         }
 
-        TreeMap<String, String> asd = new TreeMap<>((o1, o2) -> {
+        TreeMap<String, String> sortResult = new TreeMap<>((o1, o2) -> {
 
             if (checkNumber(o1)) {
                 double number1 = Double.parseDouble(o1);
@@ -78,9 +70,9 @@ public class DefaultCSVUtil implements CSVUtil {
             return o1.compareTo(o2);
         });
 
-        asd.putAll(result);
+        sortResult.putAll(result);
 
-        return asd;
+        return sortResult;
     }
 
     private String returnSubstring(String line) {

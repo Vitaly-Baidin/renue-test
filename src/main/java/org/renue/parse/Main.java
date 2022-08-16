@@ -25,15 +25,25 @@ public class Main {
         while (!input.equals("!quit")) {
             defaultCsvUtil.setSearchWord(input);
 
-            long before = System.currentTimeMillis();
-            TreeMap<String, String> result = defaultCsvUtil.search();
-            long after = System.currentTimeMillis() - before;
 
-            for (Map.Entry<String, String> element : result.entrySet()) {
-                System.out.println(element.getKey() + element.getValue());
+            try {
+                long before = System.currentTimeMillis();
+                TreeMap<String, String> result = defaultCsvUtil.search();
+                long after = System.currentTimeMillis() - before;
+
+                for (Map.Entry<String, String> element : result.entrySet()) {
+                    System.out.println(element.getKey() + element.getValue());
+                }
+
+                System.out.print("Количество найденных строк: " + result.size() +
+                        "\tЗатраченное время на поиск: " + after);
+
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
             }
 
-            System.out.print("Количество найденных строк: " + result.size() + "\tЗатраченное время на поиск: " + after);
+
+
 
             System.out.print("\nВведите строку: ");
             input = scanner.nextLine();
