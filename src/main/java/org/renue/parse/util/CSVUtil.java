@@ -1,7 +1,9 @@
 package org.renue.parse.util;
 
+import org.renue.parse.model.SearchResult;
+
 import java.io.IOException;
-import java.util.TreeMap;
+import java.util.List;
 
 public interface CSVUtil {
 
@@ -11,7 +13,7 @@ public interface CSVUtil {
 
     void setSearchWord(String searchWord);
 
-    TreeMap<String, String> search() throws IOException;
+    List<SearchResult> search() throws IOException;
 
 
 }

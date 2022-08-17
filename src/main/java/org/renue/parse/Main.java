@@ -1,12 +1,12 @@
 package org.renue.parse;
 
+import org.renue.parse.model.SearchResult;
 import org.renue.parse.util.CSVUtil;
 import org.renue.parse.util.DefaultCSVUtil;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -28,11 +28,11 @@ public class Main {
 
             try {
                 long before = System.currentTimeMillis();
-                TreeMap<String, String> result = defaultCsvUtil.search();
+                List<SearchResult> result = defaultCsvUtil.search();
                 long after = System.currentTimeMillis() - before;
 
-                for (Map.Entry<String, String> element : result.entrySet()) {
-                    System.out.println(element.getKey() + element.getValue());
+                for (SearchResult searchResult : result) {
+                    System.out.println(searchResult.toString());
                 }
 
                 System.out.print("Количество найденных строк: " + result.size() +
