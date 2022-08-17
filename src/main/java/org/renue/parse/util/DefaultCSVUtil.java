@@ -79,10 +79,17 @@ public class DefaultCSVUtil implements CSVUtil {
             if (line.charAt(startIndex + 1) == '\"') {
                 endIndex = line.indexOf("\",", startIndex);
             } else {
-                endIndex = line.indexOf(",", startIndex);
+                endIndex = line.indexOf(",", startIndex + 1) - 1;
             }
 
-            currentIndex += endIndex;
+            if (endIndex == -1) endIndex = line.length() - 1;
+
+            currentIndex = endIndex;
+
+//1,"Goroka Airport","Goroka","Papua New Guinea","GKA","AYGA",-6.081689834590001,145.391998291,5282,10,"U","Pacific/Port_Moresby","airport","OurAirports"
+//            String test = line.substring(startIndex + 1, endIndex + 1);
+//            System.out.println(test);
+
         }
 
         if (startIndex == -1 || endIndex == -1) {
