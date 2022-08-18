@@ -17,7 +17,7 @@ public class Main {
         System.out.print("Введите строку: ");
         String input = scanner.nextLine();
 
-        int startColumn = 2;
+        int startColumn = createArg(args);
 
         defaultCsvUtil.setFilePath("airports.dat");
         defaultCsvUtil.setStartColumn(startColumn);
