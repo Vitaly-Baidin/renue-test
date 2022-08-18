@@ -86,10 +86,6 @@ public class DefaultCSVUtil implements CSVUtil {
 
             currentIndex = endIndex;
 
-//1,"Goroka Airport","Goroka","Papua New Guinea","GKA","AYGA",-6.081689834590001,145.391998291,5282,10,"U","Pacific/Port_Moresby","airport","OurAirports"
-//            String test = line.substring(startIndex + 1, endIndex + 1);
-//            System.out.println(test);
-
         }
 
         if (startIndex == -1 || endIndex == -1) {
